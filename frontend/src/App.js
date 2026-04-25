@@ -10,7 +10,7 @@ const App = () => {
   const [previewUrl, setPreviewUrl] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // New state for mobile toggle
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [history, setHistory] = useState([
     { 
@@ -91,10 +91,12 @@ const App = () => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/predict', {
+      // PHASE 2 UPDATE: Now pointing to Render Production API
+      const response = await fetch('https://coffee-rust-api-nimlord.onrender.com/predict', {
         method: 'POST',
         body: formData,
       });
+      
       const data = await response.json();
       setPrediction(data);
 
@@ -108,7 +110,7 @@ const App = () => {
       setHistory(prev => [newEntry, ...prev]);
 
     } catch (error) {
-      alert("Backend Error: Ensure Python server is running!");
+      alert("Connection Error: Ensure your Render API is awake and CORS is configured!");
     } finally { setLoading(false); }
   };
 
@@ -174,7 +176,7 @@ const App = () => {
             <button key={item.id} 
               onClick={() => {
                 setActiveTab(item.id);
-                setIsMenuOpen(false); // Close menu on selection
+                setIsMenuOpen(false);
               }}
               className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all ${activeTab === item.id ? 'bg-emerald-700 shadow-inner' : 'hover:bg-emerald-800/50 opacity-70'}`}>
               {item.icon} <span className="font-bold text-sm">{item.label}</span>
