@@ -9,10 +9,16 @@ import datetime
 # 1. Initialize the API
 app = FastAPI()
 
-# 2. Enable CORS
+# 2. Enable CORS - Specifically for your Vercel App
+origins = [
+    "http://localhost:3000",
+    "https://coffee-leaf-rust-detection-5be7dqmu8-nimlords-projects.vercel.app",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -48,7 +54,6 @@ async def predict(file: UploadFile = File(...)):
         result = "Rust Detected"
         conf = float(prediction_val) * 100
         
-        # FEATURE 1: Severity Index (Based on how far past 0.5 the value is)
         if prediction_val > 0.85:
             severity = "High (Critical)"
             advice = "EMERGENCY: Severe infection. Apply systemic fungicides (Cyproconazole) and prune immediately."
@@ -64,8 +69,6 @@ async def predict(file: UploadFile = File(...)):
         severity = "N/A"
         advice = "Leaf appears healthy. Maintain regular monitoring during the rainy season."
         
-    # FEATURE 4: Data for Heatmap
-    # We return a timestamp to help the frontend track 'Live Updates'
     return {
         "diagnosis": result,
         "confidence": round(conf, 2),
@@ -73,11 +76,7 @@ async def predict(file: UploadFile = File(...)):
         "advice": advice,
         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
-    
-    # Ensure there are NO spaces before the 'if' line
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-    
-   
-    
