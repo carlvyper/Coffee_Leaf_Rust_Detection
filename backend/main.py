@@ -13,6 +13,7 @@ app = FastAPI()
 # 2. Enable CORS - Specifically for your Vercel App
 origins = [
     "http://localhost:3000",
+    "https://coffee-leaf-rust-detection.vercel.app", 
     "https://coffee-leaf-rust-detection-5be7dqmu8-nimlords-projects.vercel.app",
 ]
 
