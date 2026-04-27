@@ -5,6 +5,7 @@ from PIL import Image
 import numpy as np
 import io
 import datetime
+import os  # Added missing import
 
 # 1. Initialize the API
 app = FastAPI()
@@ -77,6 +78,9 @@ async def predict(file: UploadFile = File(...)):
         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
+# This block MUST be at the very edge of the file (no indentation)
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Get the port from the environment variable (Render sets this automatically)
+    port = int(os.environ.get("PORT", 8000)) 
+    uvicorn.run(app, host="0.0.0.0", port=port)
