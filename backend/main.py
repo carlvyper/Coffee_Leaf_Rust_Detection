@@ -17,6 +17,7 @@ origins = [
     "http://localhost:3000",
     "https://coffee-leaf-rust-detection.vercel.app", 
     "https://coffee-leaf-rust-detection-5be7dqmu8-nimlords-projects.vercel.app",
+    "https://coffee-leaf-rust-detection-git-main-nimlords-projects.vercel.app",
 ]
 
 app.add_middleware(
