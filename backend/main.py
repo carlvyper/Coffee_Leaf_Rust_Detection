@@ -5,12 +5,14 @@ from PIL import Image
 import numpy as np
 import io
 import datetime
-import os  # Added missing import
+import os
 
 # 1. Initialize the API
 app = FastAPI()
 
-# 2. Enable CORS - Specifically for your Vercel App
+# 2. Enable CORS - Fixed Configuration
+# We list specific origins instead of using "*" to avoid the security conflict
+# with allow_credentials=True
 origins = [
     "http://localhost:3000",
     "https://coffee-leaf-rust-detection.vercel.app", 
@@ -19,7 +21,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -36,7 +38,7 @@ except Exception as e:
 def check_status():
     return {"status": "CoffeeDoc National API is online"}
 
-# 5. The Prediction Route
+# 4. The Prediction Route
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     # Read image
@@ -79,7 +81,7 @@ async def predict(file: UploadFile = File(...)):
         "timestamp": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
 
-# This block MUST be at the very edge of the file (no indentation)
+# 5. Execution Block
 if __name__ == "__main__":
     import uvicorn
     # Get the port from the environment variable (Render sets this automatically)
