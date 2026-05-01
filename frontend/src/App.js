@@ -92,7 +92,7 @@ const App = () => {
 
     try {
       // PHASE 2 UPDATE: Now pointing to Render Production API
-      const response = await fetch('https://coffee-rust-detection-api.onrender.com/predict', {
+      const response = await fetch('https://coffee-rust-api-nimlord.onrender.com', {
         method: 'POST',
         body: formData,
       });
