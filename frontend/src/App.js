@@ -43,6 +43,19 @@ const App = () => {
       download: "Pakua Ripoti", risk: "Hali ya Hatari", activeUser: "Mtumiaji"
     }
   };
+    // Paste this right here:
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = "https://googlesyndication.com";
+    script.crossOrigin = "anonymous";
+    document.head.appendChild(script);
+  }, []);
+
+  // This is your existing weather code that follows right below:
+  useEffect(() => {
+    const fetchWeather = async () => {
+
   const t = translations[language];
 
   useEffect(() => {
