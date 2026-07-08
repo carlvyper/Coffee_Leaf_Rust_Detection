@@ -43,7 +43,7 @@ const App = () => {
       download: "Pakua Ripoti", risk: "Hali ya Hatari", activeUser: "Mtumiaji"
     }
   };
-    // Paste this right here:
+   // 1. Corrected Google AdSense Dynamic Hook (Using your complete ca-pub ID)
   useEffect(() => {
     const script = document.createElement('script');
     script.async = true;
@@ -52,18 +52,16 @@ const App = () => {
     document.head.appendChild(script);
   }, []);
 
-  // This is your existing weather code that follows right below:
-  useEffect(() => {
-    const fetchWeather = async () => {
-
+  // 2. Clean placement for your translation engine
   const t = translations[language];
 
+  // 3. Your clean weather fetching hook
   useEffect(() => {
     const fetchWeather = async () => {
       try {
         const API_KEY = "bd5e378503939ddaee76f12ad7a97608"; 
         const city = farmerData.county || "Embu";
-        const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},KE&appid=${API_KEY}&units=metric`);
+        const res = await fetch(`https://openweathermap.org{city},KE&appid=${API_KEY}&units=metric`);
         const data = await res.json();
         const humidity = data.main.humidity;
         setWeather({
@@ -75,7 +73,7 @@ const App = () => {
     };
     fetchWeather();
   }, [farmerData.county]);
-
+  
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name === "county") {
